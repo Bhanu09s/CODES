@@ -92,7 +92,7 @@ class Graphs{
         }
     }
 
-    public static void main(String args[]){ // O(V+E)--> time complexity
+    public static void main(String args[]){ // O(V+E)--> time complexity both DFS and BFS
         // int V = 4;
         int V = 7;
         /*
@@ -127,5 +127,15 @@ class Graphs{
 
         boolean vis[] = new boolean[V];
         dfs(graph, 0, vis);
+
+        // // for the discrete graph and we want to do the dfs
+        // // we write the same loop as we write in the bfs i.e
+        // boolean vis[] = new boolean[V];
+        // for(int i=0;i<V;i++){
+        //     if(vis[i]==false){
+        //         dfs(graph, 0, vis);
+        //     }
+        // }
+
     }
 }
