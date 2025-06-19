@@ -79,6 +79,19 @@ class Graphs{
             }
         }
     }
+
+    public static void dfs(ArrayList<Edge> graph[], int curr, boolean vis[]){
+        if(vis[curr] == true){
+            return;
+        }
+        System.out.print(curr+" ");
+        vis[curr] = true;
+        for(int i=0;i<graph[curr].size();i++){
+            Edge e = graph[curr].get(i);
+            dfs(graph,e.dest,vis);
+        }
+    }
+
     public static void main(String args[]){ // O(V+E)--> time complexity
         // int V = 4;
         int V = 7;
@@ -97,6 +110,7 @@ class Graphs{
         // when dealing with multiple discrete graph
         bfs(graph,V);
         
+        System.out.println();
         // //print 2's neighbours
         // for(int i=0;i<graph[2].size();i++){
         //     Edge e = graph[2].get(i);
@@ -110,5 +124,8 @@ class Graphs{
         //         bfs(graph,V,vis,i);
         //     }
         // }
+
+        boolean vis[] = new boolean[V];
+        dfs(graph, 0, vis);
     }
 }
