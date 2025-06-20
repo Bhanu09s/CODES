@@ -21,36 +21,59 @@ class Graphs{
         for(int i=0;i<graph.length;i++){
             graph[i] = new ArrayList<Edge>();
         }
-        // graph[0].add(new Edge(0,2,2));
-        // graph[1].add(new Edge(1,2,10));
-        // graph[1].add(new Edge(1,3,0));
-        // graph[2].add(new Edge(2,0,2));
-        // graph[2].add(new Edge(2,1,10));
-        // graph[2].add(new Edge(2,3,-1));
-        // graph[3].add(new Edge(3,1,0));
-        // graph[3].add(new Edge(3,2,-1));
-        graph[0].add(new Edge(0,1));
-        graph[0].add(new Edge(0,2));
+        // // graph[0].add(new Edge(0,2,2));
+        // // graph[1].add(new Edge(1,2,10));
+        // // graph[1].add(new Edge(1,3,0));
+        // // graph[2].add(new Edge(2,0,2));
+        // // graph[2].add(new Edge(2,1,10));
+        // // graph[2].add(new Edge(2,3,-1));
+        // // graph[3].add(new Edge(3,1,0));
+        // // graph[3].add(new Edge(3,2,-1));
+        
+        
+        // int V = 7;
+        // /*
+        //   1 ------ 3
+        //  /         | \
+        // 0          |  5 --- 6
+        //  \         | /
+        //   2 ------ 4
+        //  */
+        // graph[0].add(new Edge(0,1));
+        // graph[0].add(new Edge(0,2));
 
+        // graph[1].add(new Edge(1,0));
+        // graph[1].add(new Edge(1,3));
+
+        // graph[2].add(new Edge(2,0));
+        // graph[2].add(new Edge(2,4));
+
+        // graph[3].add(new Edge(3,1));
+        // graph[3].add(new Edge(3,4));
+        // graph[3].add(new Edge(3,5));
+
+        // graph[4].add(new Edge(4,2));
+        // graph[4].add(new Edge(4,3));
+        // graph[4].add(new Edge(4,5));
+
+        // graph[5].add(new Edge(5,3));
+        // graph[5].add(new Edge(5,4));
+        // graph[5].add(new Edge(5,6));
+
+        // graph[6].add(new Edge(6,5));
+
+        // directed graph formation 
+//          1-->0<-----3
+//              |      |
+//              |      |
+//              |      |
+//              v      |
+//              2------>
         graph[1].add(new Edge(1,0));
-        graph[1].add(new Edge(1,3));
+        graph[0].add(new Edge(0,2));
+        graph[2].add(new Edge(2,3));
+        graph[3].add(new Edge(3,0));
 
-        graph[2].add(new Edge(2,0));
-        graph[2].add(new Edge(2,4));
-
-        graph[3].add(new Edge(3,1));
-        graph[3].add(new Edge(3,4));
-        graph[3].add(new Edge(3,5));
-
-        graph[4].add(new Edge(4,2));
-        graph[4].add(new Edge(4,3));
-        graph[4].add(new Edge(4,5));
-
-        graph[5].add(new Edge(5,3));
-        graph[5].add(new Edge(5,4));
-        graph[5].add(new Edge(5,6));
-
-        graph[6].add(new Edge(6,5));
     }
 
     public static void bfs(ArrayList<Edge> graph[],int V){
@@ -92,6 +115,7 @@ class Graphs{
         }
     }
 
+    // time complexity--->O(V^V)
     public static void printAllPath(ArrayList<Edge> graph[], boolean vis[], int curr, String path, int tar){
         if(curr==tar){
             System.out.println(path);
@@ -108,55 +132,88 @@ class Graphs{
         }
     }
 
+    public static boolean isCycleDirected(ArrayList<Edge> graph[], boolean vis[], int curr, boolean rec[]){
+        vis[curr] = true;
+        rec[curr] = true;
+
+        for(int i=0; i<graph[curr].size(); i++){
+            Edge e = graph[curr].get(i);
+            if(rec[e.dest]){//cycle
+                return true;
+            }else if(!vis[e.dest]){
+                isCycleDirected(graph, vis, e.dest, rec);
+            }
+        }
+
+        rec[curr] = false;
+        return false;
+    }
+
     public static void main(String args[]){ // O(V+E)--> time complexity both DFS and BFS
         // int V = 4;
-        int V = 7;
-        /*
-          1 ------ 3
-         /         | \
-        0          |  5 --- 6
-         \         | /
-          2 ------ 4
-         */
+        // int V = 7;
+        // /*
+        //   1 ------ 3
+        //  /         | \
+        // 0          |  5 --- 6
+        //  \         | /
+        //   2 ------ 4
+        //  */
+
+        // this is for the cycle detection for the directed graph
+        int V = 4;
+
         ArrayList<Edge> graph[] = new ArrayList[V];
 
         createGraph(graph);
 
         // we dont call bfs function here we will call this inside the loop
         // when dealing with multiple discrete graph
-        bfs(graph,V);
+        // bfs(graph,V);
         
-        System.out.println();
-        // //print 2's neighbours
-        // for(int i=0;i<graph[2].size();i++){
-        //     Edge e = graph[2].get(i);
-        //     System.out.println(e.dest+" "+e.wt);
-        // }
+        // System.out.println();
+        // // //print 2's neighbours
+        // // for(int i=0;i<graph[2].size();i++){
+        // //     Edge e = graph[2].get(i);
+        // //     System.out.println(e.dest+" "+e.wt);
+        // // }
 
-        // // If we need to print the vertices For two or more discrete graphs
+        // // // If we need to print the vertices For two or more discrete graphs
+        // // boolean vis[] = new boolean[V];
+        // // for(int i=0;i<V;i++){
+        // //     if(vis[i]==false){
+        // //         bfs(graph,V,vis,i);
+        // //     }
+        // // }
+
         // boolean vis[] = new boolean[V];
-        // for(int i=0;i<V;i++){
-        //     if(vis[i]==false){
-        //         bfs(graph,V,vis,i);
-        //     }
-        // }
+        // dfs(graph, 0, vis);
+
+        // // // for the discrete graph and we want to do the dfs
+        // // // we write the same loop as we write in the bfs i.e
+        // // boolean vis[] = new boolean[V];
+        // // for(int i=0;i<V;i++){
+        // //     if(vis[i]==false){
+        // //         dfs(graph, 0, vis);
+        // //     }
+        // // }
+
+        // System.out.println();
+
+        // int src = 0;
+        // int tar = 5;
+        // printAllPath(graph, new boolean[V], src, "0", tar);
 
         boolean vis[] = new boolean[V];
-        dfs(graph, 0, vis);
-
-        // // for the discrete graph and we want to do the dfs
-        // // we write the same loop as we write in the bfs i.e
-        // boolean vis[] = new boolean[V];
-        // for(int i=0;i<V;i++){
-        //     if(vis[i]==false){
-        //         dfs(graph, 0, vis);
-        //     }
-        // }
-
-        System.out.println();
-
-        int src = 0;
-        int tar = 5;
-        printAllPath(graph, new boolean[V], src, "0", tar);
+        boolean rec[] = new boolean[V];
+        for(int i=0;i<V;i++){
+            if(!vis[i]){
+                boolean isCycle = isCycleDirected(graph, vis, 0, rec);
+                if(isCycle){
+                    System.out.println(isCycle);
+                    break;
+                }
+            }
+        }
     }
 }
